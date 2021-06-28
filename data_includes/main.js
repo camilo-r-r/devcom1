@@ -1,6 +1,6 @@
 // Remove command prefix
 PennController.ResetPrefix(null)
-PennController.AddHost("https://filedn.com/lDf2Oa0trFMzhcSFiv5VDuu/Pictures_pilot/")
+PennController.AddHost("https://filedn.com/lDf2Oa0trFMzhcSFiv5VDuu/Pictures_pilot2/")
 
 // Turn off debugger
 DebugOff()
@@ -41,7 +41,7 @@ function randomizeNoMoreThan(predicate, n) {
 
 
 // Control trial sequence
-Sequence("welcome","practice", "practiceTrials", "expIntro", randomizeNoMoreThan(anyOf("critical","filler"),1),"exitform", "send", "bye")
+Sequence("welcome","practice", randomize("practiceTrials"), "expIntro", randomizeNoMoreThan(anyOf("critical","filler"),1),"exitform", "send", "bye")
 
 // re-set counter 
 
@@ -71,23 +71,17 @@ PennController( "welcome",
     newText("text5", "<p>The experiment will take about 10 minutes. Please make sure to complete the experiment without interruption.</p>")
           .css({"font-size": "large"})
     ,
-    newText("text66", "<p>It is important that you complete the task in a quiet environment. Please turn off your computer's speakers throughout the experiment. </p>")
+    newText("text6", "<p>It is important that you complete the task in a quiet environment. Please turn off your computer's speakers throughout the experiment. </p>")
           .css({"font-size": "large"})
     ,
     newText("text2", "<p>Your task will be explained in the following pages.</p>")
           .css({"font-size": "large"})
     ,
-    newText("continue-text", "<p>Press space to continue.</p>")
-          .css({"font-size": "large"})
-    ,
-    newKey("continue", " ")
-            .once()
-            .wait()
-            
-    /*newButton("button1", "Continue")
+      
+    newButton("button1", "Continue")
         .print()
         .wait()
-    */    
+        
     ,
     getText("text1")
         .remove()
@@ -104,21 +98,18 @@ PennController( "welcome",
     getText("text2")
         .remove()
     ,
-    getText("text66")
+    getText("text6")
         .remove()
     ,
-    getText("continue-text")
-        .remove()
-    ,
-    getKey("Continue")
-        .remove()
-    /*getButton("button1")
-        .remove()
-    ,
-    */
-    ,
+    
+    
     getImage("logo")
         .remove()
+    ,
+                
+    getButton("button1")
+        .remove()
+
     ,
     
     newHtml("consentInfo", "consentInfo.html")
@@ -142,79 +133,59 @@ PennController( "welcome",
     newHtml("instructions", "instructions.html")
         .print()
     ,    
-    newText("continue-text", "<p>Press space to continue.</p>")
-         .css({"font-size": "large"})
-    ,
+
     newKey("continue", " ")
         .once()
         .wait()
      
-    /*newButton("button4", "Continue")
-        .print()
-        .wait()
-    */
     ,
     getHtml("instructions")
         .remove()
     ,
-    getText("continue-text")
+
+    getKey("continue")
         .remove()
     ,
-    getKey("Continue")
-        .remove()
-    ,    
-    /*getButton("button4")
-        .remove()
-    ,*/
+    
     newHtml("instructions2", "instructions2.html")
         .print()
     ,
-    newText("continue-text", "<p>Press space to continue.</p>")
-        .css({"font-size": "large"})
-    ,
-    newKey("continue", " ")
+
+    newKey("continue2", " ")
         .once()
         .wait()
         
-    /*newButton("button5", "Continue")
-        .print()
-        .wait()
-    */
     ,
+                
     getHtml("instructions2")
         .remove()
-    ,
-    getButton("button5")
+   ,
+                
+   getKey("continue2")
         .remove()
-    ,
     
-        
+    ,
+   
     newHtml("instructions3", "instructions3.html")
         .print()
-        ,
-    /*newText("continue-text", "<p>Press space to continue.</p>")
-        .css({"font-size": "large"})
     ,
-    newKey("continue", " ")
+
+    newKey("continue3", " ")
         .once()
-        .wait()*/
-    newButton("button5", "Continue")
-        .print()
         .wait()
+   ,
+
     
-    ,
+    
     getHtml("instructions3")
         .remove()
     ,
-    getText("continue-text")
+
+    getKey("continue3")
         .remove()
-    ,
-    getKey("Continue")
-        .remove()
-    /*,
-    getButton("button5")
-        .remove()
-    */    
+   
+    
+    
     
 )
 // practice round 
@@ -225,7 +196,7 @@ PennController( "practice",
     newText("text-test", "<h2>Practice round</h2>")
         .css({"font-size": "large"})
     ,
-    newText("text-test2", "<p>You will now go through a short practice round to get the hang of the task.</p> <p> <strong>As soon as you click on 'Start Practice Round', the first trial will begin!</strong></p>")
+    newText("text-test2", "<p>You will now go through a short practice round to get the hang of the task.</p> <p> <strong>As soon as you press the SPACEBAR, the first trial will begin!</strong></p>")
             .css({"font-size": "large"})
     ,        
      newText("text-test3", "Remember to keep your hands in the position shown in the picture below.")
@@ -235,10 +206,11 @@ PennController( "practice",
                      .size(520, 320)
                      .print()
     ,
-    newButton("button100", "Start Practice Round")
-        .print()
+    newKey("continue4", " ")
+        .once()
         .wait()
     ,
+
     getText("text-test")
         .remove()
     ,
@@ -247,6 +219,11 @@ PennController( "practice",
     ,
     getText("text-test3")
         .remove()
+    ,
+    getKey("continue4")
+        .remove()
+   
+    
 )
 
 // practice trials
@@ -270,7 +247,7 @@ Template("practice_round.csv",row =>
             .start()
             .wait()
         ,    
-        newKey("continue", " ")
+        newKey("continue5", " ")
                     .once()
                     .wait()
         ,
@@ -285,10 +262,10 @@ Template("practice_round.csv",row =>
         newText("space", " ")
                     .print()
         ,
-        //getKey("continue", " ")
-          //  .once()
-            //.wait()
-        //,
+    newTimer("wait2", 1000)
+            .start()
+            .wait()
+        ,  
         newImage("control-picture", row.control_picture)
                      .size(400, 300)
         ,
@@ -343,17 +320,19 @@ PennController( "expIntro",
     newText("text-main", "<h2>Great job!</h2>")
         .css({"font-size": "large"})
     ,
-    newText("text-main2", "<p>Now the real Experiment will start. Remember: It is very important that, after clicking on 'Start Experiment', you keep your hands in the position shown in the picture below!</p>")
+    newText("text-main2", "<p>Now the real Experiment will start. Remember: It is very important that you keep your hands in the position shown in the picture below! Press the SPACEBAR to begin.</p>")
             .css({"font-size": "large"})
     ,
       newImage("hands", "hands.jpg")
                      .size(520, 320)
                      .print()
     ,                 
-    newButton("button101", "Start Experiment")
-        .print()
-        .wait()
-    ,
+   
+     newKey("continue6", " ")
+                    .once()
+                    .wait()
+        ,
+    
     getText("text-main")
         .remove()
     ,
@@ -382,7 +361,7 @@ Template("Pilot_main_w.fillers.csv",row =>
             .start()
             .wait()
         ,
-        newKey("continue", " ")
+        newKey("continue6", " ")
                     .once()
                     .wait()
         ,
@@ -397,10 +376,11 @@ Template("Pilot_main_w.fillers.csv",row =>
         newText("space", " ")
                     .print()
         ,
-        //getKey("continue", " ")
-          //  .once()
-            //.wait()
-        //,
+
+     newTimer("wait2", 1000)
+            .start()
+            .wait()
+        ,  
         newImage("control-picture", row.control_picture)
                      .size(400, 300)
         ,
